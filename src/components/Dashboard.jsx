@@ -4,12 +4,8 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useState } from "react";
 
-const Dashboard = () => {
-    const [transactions, setTransactions] = useState([
-        { id: 1, date: "2024-02-10", description: "Salary", amount: 50000, category: "Income" },
-        { id: 2, date: "2024-02-12", description: "Grocery Shopping", amount: -1500, category: "Food" },
-        { id: 3, date: "2024-02-15", description: "Netflix Subscription", amount: -499, category: "Entertainment" },
-      ]);
+const Dashboard = ({transactions}) => {
+  
       const recentTransactions = transactions.slice(-5);
       const totalExpenses = transactions.filter(t => t.amount < 0).reduce((sum, t) => sum + t.amount, 0);
       const totalBalance = transactions.reduce((sum, t) => sum + t.amount, 0);

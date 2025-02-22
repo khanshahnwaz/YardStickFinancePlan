@@ -73,7 +73,7 @@ const COLORS = ["#4CAF50", "#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28DFF"
 
   return (
     <div className="p-6 space-y-6 bg-blue-600 min-h-screen text-white">
-      <h1 className="text-3xl font-bold text-center">Stage 2</h1>
+      <h1 className="text-3xl font-bold text-center">Dashboard</h1>
       <h2 className="text-xl font-semibold">Balance: ₹{totalBalance}</h2>
       {/* Dashboard Summary */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -163,7 +163,38 @@ const COLORS = ["#4CAF50", "#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28DFF"
         </CardContent>
       </Card>
 
-  
+      {/* Budget vs Actual Comparison Chart */}
+    {/* Budget vs Actual Comparison Chart */}
+          <Card>
+            <CardContent className="p-4">
+              <h3 className="text-lg font-semibold">Budget vs Actual Spending</h3>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={categories.filter(cat => cat !== "Income").map(cat => ({
+                  name: cat,
+                  Budget: budgets[cat],
+                  Actual: Math.abs(transactions.filter(t => t.category === cat).reduce((sum, t) => sum + t.amount, 0))
+                }))}>
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="Budget" fill="#4CAF50" />
+                  <Bar dataKey="Actual" fill="#FF8042" />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+      {/* Budget Settings */}
+      <Card>
+        <CardContent className="p-4 space-y-3">
+          <h3 className="text-lg font-semibold">Set Monthly Budgets</h3>
+          {categories.filter(cat => cat !== "Income").map(cat => (
+            <div key={cat} className="flex justify-between">
+              <span>{cat}</span>
+              <Input type="number" value={budgets[cat]} onChange={(e) => handleBudgetChange(cat, e.target.value)} />
+            </div>
+          ))}
+        </CardContent>
+      </Card>
     </div>
   );
 };
